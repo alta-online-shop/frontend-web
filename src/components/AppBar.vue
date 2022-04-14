@@ -1,8 +1,10 @@
 <template>
   <v-app-bar app color="deep-purple accent-4" dark>
-    <v-toolbar-title>AltaShop</v-toolbar-title>
+    <v-toolbar-title>
+      <h3 @click="gotoHome" style="cursor: pointer">AltaShop</h3>
+    </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
+    <v-btn icon @click="gotoOrder">
       <v-badge
         bottom
         left
@@ -25,6 +27,14 @@ export default {
     orders: get('cart/orders'),
     ordersLength() {
       return this.orders.length;
+    },
+  },
+  methods: {
+    gotoHome() {
+      this.$router.push({ name: 'Home' });
+    },
+    gotoOrder() {
+      this.$router.push({ name: 'Order' });
     },
   },
 };

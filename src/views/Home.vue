@@ -44,7 +44,22 @@ export default {
   methods: {
     getAllProducts: call('product/getAllProducts'),
     setOrders(product) {
-      dispatch('cart/setOrders', [...this.orders, product]);
+      let orders = [];
+      if (this.orders.map(order => order.ID).includes(product.ID)) {
+        orders = this.orders.map(order => {
+          if (order.ID == product.ID) {
+            order.qty++;
+          }
+          return order;
+        });
+      } else {
+        orders = [...this.orders, {
+          ...product,
+          qty: 1,
+        }];
+      }
+
+      dispatch('cart/setOrders', orders);
     },
   },
 }
