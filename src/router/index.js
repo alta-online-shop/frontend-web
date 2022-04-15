@@ -40,6 +40,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/transaction',
+    name: 'Transaction',
+    component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue')
+  },
 
 ]
 
