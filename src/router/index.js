@@ -22,7 +22,24 @@ const routes = [
     path: '/order',
     name: 'Order',
     component: () => import(/* webpackChunkName: "order" */ '../views/Order.vue')
-  }
+  },
+  {
+    path: '/auth',
+    name: 'Auth',
+    component: () => import(/* webpackChunkName: "auth" */ '../views/auth/Auth.vue'),
+    children: [
+      {
+        path: 'register',
+        name: 'AuthRegister',
+        component: () => import(/* webpackChunkName: "auth-register" */ '../views/auth/Register.vue')
+      },
+      {
+        path: 'login',
+        name: 'AuthLogin',
+        component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/Login.vue')
+      },
+    ],
+  },
 
 ]
 

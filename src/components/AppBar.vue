@@ -15,6 +15,10 @@
         <v-icon>fas fa-shopping-cart</v-icon>
       </v-badge>
     </v-btn>
+    <v-btn icon @click="gotoLogin">
+      <v-icon>fas fa-sign-in</v-icon>
+    </v-btn>
+
   </v-app-bar>
 </template>
 
@@ -35,6 +39,9 @@ export default {
     },
     gotoOrder() {
       this.$router.push({ name: 'Order' });
+    },
+    gotoLogin() {
+      this.$router.push({ name: 'AuthLogin' });
     },
   },
 };
