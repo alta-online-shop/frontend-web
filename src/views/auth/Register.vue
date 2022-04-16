@@ -2,6 +2,11 @@
   <v-card>
     <v-card-title>Register</v-card-title>
     <v-card-text>
+
+      <v-alert v-if="error" border="top" colored-border type="error" elevation="2">
+        {{ errorMessage }}
+      </v-alert>
+
       <v-form v-model="isValid">
 
         <v-text-field
@@ -21,7 +26,7 @@
         ></v-text-field>
 
         <div class="text-center">
-          <v-btn color="primary">Register</v-btn>
+          <v-btn color="primary" @click="onRegister" :disabled="loading">Register</v-btn>
         </div>
 
       </v-form>
@@ -36,6 +41,8 @@
 </template>
 
 <script>
+import { call, get } from 'vuex-pathify';
+
 export default {
   data: () => ({
     isValid: false,
@@ -45,5 +52,21 @@ export default {
       password: '',
     },
   }),
+  computed: {
+    loading: get('auth/loading'),
+    error: get('auth/error'),
+  },
+  methods: {
+    register: call('auth/register'),
+    async onRegister() {
+      try {
+        await this.register(this.user);
+        this.$router.push({ name: 'AuthLogin' });
+      } catch (error) {
+        this.errorMessage = error;
+      }
+    },
+
+  },
 };
 </script>

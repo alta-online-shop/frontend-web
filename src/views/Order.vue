@@ -86,7 +86,7 @@ export default {
     },
     gotoBayar() {
       if (this.isAuthenticated) {
-        this.$router.push({ name: 'Transaction' });
+        this.$router.push({ name: 'Transaction', query: { data: JSON.stringify(this.orders) } });
       } else {
         this.$router.push({ name: 'AuthLogin', query: { next: 'Transaction', data: JSON.stringify(this.orders) } });
       }

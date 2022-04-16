@@ -34,5 +34,21 @@ export default make({
         throw error.response.data.error || error.response.data.errors || 'invalid login';
       }
     },
+
+    async register(store, user) {
+      await dispatch('auth/setFinite', 'loading');
+
+      try {
+        await store.rootState.api.post('/auth/register', user);
+        await dispatch('auth/setFinite', 'iddle');
+      } catch (error) {
+        await dispatch('auth/setFinite', 'error');
+        throw error.response.data.error || error.response.data.errors || 'general error';
+      }
+    },
+
+    async logout() {
+      await dispatch('auth/setToken', '');
+    },
   },
 });

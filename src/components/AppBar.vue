@@ -15,7 +15,10 @@
         <v-icon>fas fa-shopping-cart</v-icon>
       </v-badge>
     </v-btn>
-    <v-btn icon @click="gotoLogin">
+    <v-btn icon @click="gotoLogin" v-if="isAuthenticated">
+      <v-icon>fas fa-sign-out</v-icon>
+    </v-btn>
+    <v-btn icon @click="gotoLogin" v-else>
       <v-icon>fas fa-sign-in</v-icon>
     </v-btn>
 
@@ -23,24 +26,27 @@
 </template>
 
 <script>
-import { get } from 'vuex-pathify';
+import { get, call } from 'vuex-pathify';
 
 export default {
   data: () => ({c: 0}),
   computed: {
+    isAuthenticated: get('auth/isAuthenticated'),
     orders: get('cart/orders'),
     ordersLength() {
       return this.orders.length;
     },
   },
   methods: {
+    logout: call('auth/logout'),
     gotoHome() {
       this.$router.push({ name: 'Home' });
     },
     gotoOrder() {
       this.$router.push({ name: 'Order' });
     },
-    gotoLogin() {
+    async gotoLogin() {
+      await this.logout();
       this.$router.push({ name: 'AuthLogin' });
     },
   },

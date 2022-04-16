@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { call } from 'vuex-pathify';
+
 export default {
   data: () => ({
     data: '',
@@ -18,11 +20,13 @@ export default {
     await this.createTransaction();
   },
   methods: {
+    setOrders: call('cart/setOrders'),
     loadDataFromQuery() {
       this.data = this.$route.query.data;
       this.data = JSON.parse(this.data);
     },
     async createTransaction() {
+      await this.setOrders([]);
       // TODO: hit backend to save this transactions
     },
   },

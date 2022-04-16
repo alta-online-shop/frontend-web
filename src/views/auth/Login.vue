@@ -36,6 +36,7 @@
 
 <script>
 import { call, get } from 'vuex-pathify';
+
 export default {
   data: () => ({
     isValid: false,
