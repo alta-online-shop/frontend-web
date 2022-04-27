@@ -3,7 +3,7 @@ import { make } from '../helpers/store';
 
 const state = {
   finite: 'iddle',
-  products: [],
+  categories: [],
 };
 
 export default make({
@@ -18,20 +18,16 @@ export default make({
     },
   },
   actions: {
-    async getAllProducts(store, categoryID) {
-      dispatch('product/setFinite', 'loading');
+    async getAllCategories(store) {
+      dispatch('category/setFinite', 'loading');
 
       try {
-        const response = await store.rootState.api.get('/products', {
-          params: {
-            category: categoryID,
-          },
-        });
+        const response = await store.rootState.api.get('/categories');
         const { data } = response.data;
-        dispatch('product/setProducts', data);
-        dispatch('product/setFinite', 'iddle');
+        dispatch('category/setCategories', data);
+        dispatch('category/setFinite', 'iddle');
       } catch (error) {
-        dispatch('product/setFinite', 'error');
+        dispatch('category/setFinite', 'error');
       }
     },
   },

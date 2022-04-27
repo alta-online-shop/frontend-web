@@ -12,31 +12,34 @@
       Can not get products!
     </v-alert>
 
-    <v-row align="stretch" v-if="!loading && !error && products.length > 0">
-      <v-col v-for="product in products" :key="product.ID" :id="product.ID" cols="6" md="4" lg="3">
-        <v-card>
-          <v-card-title class="product-title">
-            {{ product.Name }}
-          </v-card-title>
-          <v-card-subtitle class="product-description">
-            {{ product.Description }}&nbsp;
-          </v-card-subtitle>
+    <FilterCategory @change="onCategoryChange" />
+    <div v-if="!loading && !error && products.length > 0">
+      <v-row align="stretch">
+        <v-col v-for="product in products" :key="product.ID" :id="product.ID" cols="6" md="4" lg="3">
+          <v-card>
+            <v-card-title class="product-title">
+              {{ product.Name }}
+            </v-card-title>
+            <v-card-subtitle class="product-description">
+              {{ product.Description }}&nbsp;
+            </v-card-subtitle>
 
-          <v-card-actions class="d-block">
-            <div class="product-price text-center">
-              Rp {{ product.Price }}
-            </div>
-            <div>
-            <v-btn 
-              class="button-beli" block small outlined color="primary"
-              @click="setOrders(product)"
-            >Beli</v-btn>
+            <v-card-actions class="d-block">
+              <div class="product-price text-center">
+                Rp {{ product.Price }}
+              </div>
+              <div>
+              <v-btn 
+                class="button-beli" block small outlined color="primary"
+                @click="setOrders(product)"
+              >Beli</v-btn>
 
-            </div>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+              </div>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
     <v-alert v-if="!loading && !error && products.length <= 0" border="top" colored-border type="info" elevation="2">
       Products is empty!
     </v-alert>
@@ -46,8 +49,12 @@
 
 <script>
 import { get, call, dispatch } from 'vuex-pathify';
+import FilterCategory from '@/components/FilterCategory.vue';
 
 export default {
+  components: {
+    FilterCategory,
+  },
   computed: {
     products: get('product/products'),
     loading: get('product/loading'),
@@ -61,6 +68,9 @@ export default {
 
   methods: {
     getAllProducts: call('product/getAllProducts'),
+    async onCategoryChange(id) {
+      await this.getAllProducts(id);
+    },
     setOrders(product) {
       let orders = [];
       if (this.orders.map(order => order.ID).includes(product.ID)) {

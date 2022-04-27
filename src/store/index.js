@@ -5,6 +5,7 @@ import pathify from 'vuex-pathify';
 import vuexPersistedState from 'vuex-persistedstate';
 
 import auth from './auth';
+import category from './category';
 import product from './product';
 import cart from './cart';
 import transaction from './transaction';
@@ -37,6 +38,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
+    category,
     product,
     cart,
     transaction,
