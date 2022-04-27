@@ -15,9 +15,45 @@
         <v-icon>fas fa-shopping-cart</v-icon>
       </v-badge>
     </v-btn>
-    <v-btn icon @click="gotoLogin" v-if="isAuthenticated">
-      <v-icon>fas fa-sign-out</v-icon>
-    </v-btn>
+    <v-menu
+      top
+      :close-on-click="true"
+      v-if="isAuthenticated"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>fas fa-user</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item @click="gotoTransaction" >
+          <v-list-item-icon>
+            <v-icon>fas fa-history</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title>
+            Transaksi
+          </v-list-item-title>
+        </v-list-item>
+
+        <v-list-item @click="gotoLogin" >
+          <v-list-item-icon>
+            <v-icon>fas fa-sign-in</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title>
+            Logout
+          </v-list-item-title>
+        </v-list-item>
+
+      </v-list>
+    </v-menu>
     <v-btn icon @click="gotoLogin" v-else>
       <v-icon>fas fa-sign-in</v-icon>
     </v-btn>
@@ -44,6 +80,9 @@ export default {
     },
     gotoOrder() {
       this.$router.push({ name: 'Order' });
+    },
+    gotoTransaction() {
+      this.$router.push({ name: 'Transaction' });
     },
     async gotoLogin() {
       await this.logout();
