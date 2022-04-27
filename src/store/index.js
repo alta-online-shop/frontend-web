@@ -7,12 +7,16 @@ import vuexPersistedState from 'vuex-persistedstate';
 import auth from './auth';
 import product from './product';
 import cart from './cart';
+import transaction from './transaction';
 
 Vue.use(Vuex)
 
 const api = (store) => {
   const api = axios.create({
     baseURL: process.env.VUE_APP_BACKEND,
+    headers: {
+      authorization: `Bearer ${store.state.auth.token}`,
+    },
   });
 
   store.state.api = api;
@@ -35,5 +39,6 @@ export default new Vuex.Store({
     auth,
     product,
     cart,
+    transaction,
   },
 });

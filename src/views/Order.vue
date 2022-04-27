@@ -85,10 +85,14 @@ export default {
       dispatch('cart/setOrders', orders);
     },
     gotoBayar() {
+      const orders = this.orders.map(order => ({
+        product_id: order.ID,
+        quantity: order.qty,
+      }));
       if (this.isAuthenticated) {
-        this.$router.push({ name: 'Transaction', query: { data: JSON.stringify(this.orders) } });
+        this.$router.push({ name: 'Transaction', query: { data: JSON.stringify(orders) } });
       } else {
-        this.$router.push({ name: 'AuthLogin', query: { next: 'Transaction', data: JSON.stringify(this.orders) } });
+        this.$router.push({ name: 'AuthLogin', query: { next: 'Transaction', data: JSON.stringify(orders) } });
       }
     },
   },
