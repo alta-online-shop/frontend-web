@@ -25,15 +25,20 @@
             </v-card-subtitle>
 
             <v-card-actions class="d-block">
-              <div class="product-price text-center">
-                Rp {{ product.Price }}
-              </div>
-              <div>
-              <v-btn 
-                class="button-beli" block small outlined color="primary"
-                @click="setOrders(product)"
-              >Beli</v-btn>
-
+              <v-row>
+                <v-col v-if="product.Ratings > 0">
+                  <v-icon>fas fa-star</v-icon>
+                  {{ product.Ratings }}
+                </v-col>
+                <v-col class="product-price text-right">
+                  Rp <b>{{ currencyFormat(product.Price) }}</b>
+                </v-col>
+              </v-row>
+              <div class="mt-3">
+                <v-btn 
+                  class="button-beli" block small outlined color="primary"
+                  @click="setOrders(product)"
+                >Beli</v-btn>
               </div>
             </v-card-actions>
           </v-card>
@@ -88,6 +93,11 @@ export default {
       }
 
       dispatch('cart/setOrders', orders);
+    },
+    currencyFormat(val) {
+      return new Intl.NumberFormat('id-ID', {
+        maximumFractionDigits: 0,
+      }).format(val);
     },
   },
 }
