@@ -4,8 +4,14 @@
     <v-card class="mx-auto mt-8">
       <v-card-text>
         <div>Details</div>
-
         <p class="text-h4 text--primary">{{ Details.Name }}</p>
+        <v-img
+          src="https://picsum.photos/510/300?random"
+          aspect-ratio="1.7"
+          width="500px"
+          class="mb-3 img-circle"
+          radius="5"
+        ></v-img>
         <p>Price : {{ Details.Price }}</p>
         <v-container>
           <v-row>
@@ -94,5 +100,8 @@ export default {
   opacity: 1 !important;
   position: absolute;
   width: 100%;
+}
+.img-circle {
+  border-radius: 5px;
 }
 </style>
