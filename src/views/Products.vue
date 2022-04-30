@@ -6,6 +6,18 @@
         <div>Details</div>
         <p class="text-h4 text--primary">{{ Details.data.data.Name }}</p>
         <p>Price : {{ Details.data.data.Price }}</p>
+        <span class="black--text text--lighten-2 text-caption mr-2">
+          ({{ Details.data.data.Ratings }})
+        </span>
+        <v-rating
+          v-model="this.Details.data.data.Ratings"
+          background-color="black"
+          color="yellow accent-4"
+          dense
+          half-increments
+          readonly
+          size="18"
+        ></v-rating>
         <div class="text--primary">
           <li v-for="item in Details.data.data.Categories" :key="item.message">
             {{ item.Name }}
@@ -48,7 +60,7 @@ export default {
     axios
       .get("https://be-qa.alta.id/api/products/" + this.$route.params.id)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         this.Details = response;
       });
     // this.getDetailProducts();
