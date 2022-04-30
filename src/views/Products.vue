@@ -4,15 +4,16 @@
     <v-card class="mx-auto mt-8">
       <v-card-text>
         <div>Details</div>
-        <p class="text-h4 text--primary">{{ Details.data.data.Name }}</p>
-        <p>Price : {{ Details.data.data.Price }}</p>
+
+        <p class="text-h4 text--primary">{{ Details.Name }}</p>
+        <p>Price : {{ Details.Price }}</p>
         <v-container>
           <v-row>
             <span class="black--text text--lighten-2 text-caption mr-2">
-              ({{ Details.data.data.Ratings }})
+              ({{ Details.Ratings }})
             </span>
             <v-rating
-              v-model="this.Details.data.data.Ratings"
+              v-model="this.Details.Ratings"
               background-color="black"
               color="yellow accent-4"
               dense
@@ -24,13 +25,10 @@
         </v-container>
         <v-container>
           <div class="text--primary">
-            <li
-              v-for="item in Details.data.data.Categories"
-              :key="item.message"
-            >
+            <li v-for="item in Details.Categories" :key="item.message">
               {{ item.Name }}
             </li>
-            {{ Details.data.data.Description }}
+            {{ Details.Description }}
           </div>
         </v-container>
       </v-card-text>
@@ -61,18 +59,29 @@
 </template>
 
 <script>
-// import { get, call, dispatch } from "vuex-pathify";
-import axios from "axios";
+import { get } from "vuex-pathify";
+// import axios from "axios";
 export default {
   mounted() {
-    console.log("mounted");
-    axios
-      .get("https://be-qa.alta.id/api/products/" + this.$route.params.id)
-      .then((response) => {
-        // console.log(response);
-        this.Details = response;
-      });
+    // axios
+    //   .get("https://be-qa.alta.id/api/products/" + this.$route.params.id)
+    //   .then((response) => {
+    //     // console.log(response);
+    //     this.Details = response;
+    //   });
     // this.getDetailProducts();
+    this.products.map((product) => {
+      if (product.ID == this.$route.params.id) {
+        this.Details = product;
+      }
+    });
+    console.log("product all " + JSON.stringify(this.Details));
+  },
+  computed: {
+    products: get("product/products"),
+    loading: get("product/loading"),
+    error: get("product/error"),
+    orders: get("cart/orders"),
   },
   data: function () {
     return {

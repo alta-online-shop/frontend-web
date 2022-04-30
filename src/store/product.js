@@ -28,6 +28,7 @@ export default make({
           },
         });
         const { data } = response.data;
+        console.log("all data", data);
         dispatch("product/setProducts", data);
         dispatch("product/setFinite", "iddle");
       } catch (error) {
