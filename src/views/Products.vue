@@ -60,16 +60,8 @@
 
 <script>
 import { get } from "vuex-pathify";
-// import axios from "axios";
 export default {
   mounted() {
-    // axios
-    //   .get("https://be-qa.alta.id/api/products/" + this.$route.params.id)
-    //   .then((response) => {
-    //     // console.log(response);
-    //     this.Details = response;
-    //   });
-    // this.getDetailProducts();
     this.products.map((product) => {
       if (product.ID == this.$route.params.id) {
         this.Details = product;
@@ -90,7 +82,6 @@ export default {
   },
   methods: {
     BackButton() {
-      //   console.log("nack button :");
       this.$router.push("/");
     },
   },
