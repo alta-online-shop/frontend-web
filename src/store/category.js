@@ -1,8 +1,8 @@
-import { dispatch } from 'vuex-pathify';
-import { make } from '../helpers/store';
+import { dispatch } from "vuex-pathify";
+import { make } from "../helpers/store";
 
 const state = {
-  finite: 'iddle',
+  finite: "iddle",
   categories: [],
 };
 
@@ -11,23 +11,23 @@ export default make({
   state,
   getters: {
     loading(state) {
-      return state.finite == 'loading';
+      return state.finite == "loading";
     },
     error(state) {
-      return state.finite == 'error';
+      return state.finite == "error";
     },
   },
   actions: {
     async getAllCategories(store) {
-      dispatch('category/setFinite', 'loading');
+      dispatch("category/setFinite", "loading");
 
       try {
-        const response = await store.rootState.api.get('/categories');
+        const response = await store.rootState.api.get("/categories");
         const { data } = response.data;
-        dispatch('category/setCategories', data);
-        dispatch('category/setFinite', 'iddle');
+        dispatch("category/setCategories", data);
+        dispatch("category/setFinite", "iddle");
       } catch (error) {
-        dispatch('category/setFinite', 'error');
+        dispatch("category/setFinite", "error");
       }
     },
   },

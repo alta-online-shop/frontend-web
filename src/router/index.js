@@ -1,57 +1,82 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
+    path: "/about",
+    name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path: '/order',
-    name: 'Order',
-    component: () => import(/* webpackChunkName: "order" */ '../views/Order.vue')
+    path: "/order",
+    name: "Order",
+    component: () =>
+      import(/* webpackChunkName: "order" */ "../views/Order.vue"),
   },
   {
-    path: '/auth',
-    name: 'Auth',
-    component: () => import(/* webpackChunkName: "auth" */ '../views/auth/Auth.vue'),
+    path: "/auth",
+    name: "Auth",
+    component: () =>
+      import(/* webpackChunkName: "auth" */ "../views/auth/Auth.vue"),
     children: [
       {
-        path: 'register',
-        name: 'AuthRegister',
-        component: () => import(/* webpackChunkName: "auth-register" */ '../views/auth/Register.vue')
+        path: "register",
+        name: "AuthRegister",
+        component: () =>
+          import(
+            /* webpackChunkName: "auth-register" */ "../views/auth/Register.vue"
+          ),
       },
       {
-        path: 'login',
-        name: 'AuthLogin',
-        component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/Login.vue')
+        path: "login",
+        name: "AuthLogin",
+        component: () =>
+          import(
+            /* webpackChunkName: "auth-login" */ "../views/auth/Login.vue"
+          ),
       },
     ],
   },
   {
-    path: '/transaction',
-    name: 'Transaction',
-    component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue')
+    path: "/products",
+    name: "Products",
+    component: () =>
+      import(/* webpackChunkName: "auth" */ "../views/Products.vue"),
+    children: [
+      {
+        path: ":id",
+        name: "ID",
+        component: () =>
+          import(
+            /* webpackChunkName: "auth-register" */ "../views/Products.vue"
+          ),
+      },
+    ],
   },
-
-]
+  {
+    path: "/transaction",
+    name: "Transaction",
+    component: () =>
+      import(/* webpackChunkName: "transaction" */ "../views/Transaction.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
