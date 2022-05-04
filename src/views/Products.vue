@@ -1,94 +1,61 @@
 <template>
   <v-container>
-    <v-btn @click="BackButton" elevation="2">Back</v-btn>
-    <v-card class="mx-auto mt-8">
+    <v-skeleton-loader type="article" v-if="loading"></v-skeleton-loader>
+    <v-card class="mx-auto mt-8" v-else>
       <v-card-text>
-        <div>Details</div>
-        <p class="text-h4 text--primary">{{ Details.Name }}</p>
-        <v-img
-          src="https://picsum.photos/510/300?random"
-          aspect-ratio="1.7"
-          width="500px"
-          class="mb-3 img-circle"
-          radius="5"
-        ></v-img>
-        <p>Price : {{ Details.Price }}</p>
+        <p class="text-h4 text--primary">{{ product.Name }}</p>
+        <v-chip v-for="item in product.Categories" :key="item.ID">{{ item.Name }}</v-chip>
+        <p>Rp <b>{{ product.Price }}</b></p>
         <v-container>
           <v-row>
-            <span class="black--text text--lighten-2 text-caption mr-2">
-              ({{ Details.Ratings }})
-            </span>
             <v-rating
-              v-model="this.Details.Ratings"
-              background-color="black"
-              color="yellow accent-4"
+              hover
               dense
-              half-increments
-              readonly
-              size="12"
+              length="5"
+              size="18"
+              v-model="ratings"
             ></v-rating>
+            <span class="black--text text--lighten-2 text-caption mr-2">
+              ({{ product.Ratings }})
+            </span>
           </v-row>
         </v-container>
-        <v-container>
-          <div class="text--primary">
-            <li v-for="item in Details.Categories" :key="item.message">
-              {{ item.Name }}
-            </li>
-            {{ Details.Description }}
-          </div>
-        </v-container>
       </v-card-text>
-
-      <v-expand-transition>
-        <v-card
-          v-if="reveal"
-          class="transition-fast-in-fast-out v-card--reveal"
-          style="height: 100%"
-        >
-          <v-card-text class="pb-0">
-            <p class="text-h4 text--primary">Origin</p>
-            <p>
-              late 16th century (as a noun denoting a place where alms were
-              distributed): from medieval Latin eleemosynarius, from late Latin
-              eleemosyna ‘alms’, from Greek eleēmosunē ‘compassion’
-            </p>
-          </v-card-text>
-          <v-card-actions class="pt-0">
-            <v-btn text color="teal accent-4" @click="reveal = false">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-expand-transition>
     </v-card>
   </v-container>
 </template>
 
 <script>
-import { get } from "vuex-pathify";
+import { get, call } from "vuex-pathify";
 export default {
-  mounted() {
-    this.products.map((product) => {
-      if (product.ID == this.$route.params.id) {
-        this.Details = product;
-      }
-    });
-    console.log("product all " + JSON.stringify(this.Details));
+  data: () => ({
+    ratings: 0,
+  }),
+  async mounted() {
+    await this.getProductByID(this.$route.params.id);
+    this.ratings = this.product.Ratings;
   },
   computed: {
-    products: get("product/products"),
+    product: get("product/product"),
     loading: get("product/loading"),
     error: get("product/error"),
     orders: get("cart/orders"),
   },
-  data: function () {
-    return {
-      Details: "",
-    };
-  },
   methods: {
-    BackButton() {
-      this.$router.push("/");
+    getProductByID: call("product/getProductByID"),
+    setRatings: call("product/setRatings"),
+    goBack() {
+      this.$router.back();
+    },
+  },
+  watch: {
+    async ratings(to) {
+      await this.setRatings({
+        productID: this.product.ID,
+        count: to,
+      });
+      await this.getProductByID(this.$route.params.id);
+      this.ratings = this.product.Ratings;
     },
   },
 };

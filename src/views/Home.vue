@@ -57,7 +57,7 @@
                   small
                   outlined
                   color="primary"
-                  @click="setDetails(product)"
+                  @click="gotoProductDetail(product)"
                   >Detail</v-btn
                 >
 
@@ -132,9 +132,7 @@ export default {
 
       dispatch("cart/setOrders", orders);
     },
-    setDetails(product) {
-      console.log(product.ID);
-      // dispatch("product/setDetails", product.ID);
+    gotoProductDetail(product) {
       this.$router.push({ name: "Products", params: { id: product.ID } });
     },
     currencyFormat(val) {
